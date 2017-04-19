@@ -7,3 +7,4 @@ Versão 2 do curso de Jersey da Devmedia.
 - Configuração do contexto da aplicação dentro do Tomcat no arquivo META-INF/context.xml do projeto.
 - Utilizando um arquivo de propriedades para definição dos parâmetros de conexão com o banco de dados.
 - Criação de uma classe de factory para a conexão com o banco.
+- Limitando a quantidade de entradas retornadas na busca de lembretes.
