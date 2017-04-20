@@ -8,6 +8,14 @@ import java.util.Vector;
 
 import br.edu.devmedia.dao.DatabaseConnectionFactory;
 
+/**
+ * Retorna listas limitadas a um certo número de entidades lembrete.
+ * 
+ * Esta classe se encontra no pacote de domínio porque representa uma regra de negócio:
+ * a aplicação não deve retornar mais do que um número X de registros nas buscas.
+ * @author Allan
+ *
+ */
 public class LembreteRepository {
 
 	/**
