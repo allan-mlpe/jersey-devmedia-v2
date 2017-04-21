@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Vector;
 
 import br.edu.devmedia.dao.DatabaseConnectionFactory;
+import br.edu.devmedia.exception.ApiException;
 
 /**
  * Retorna listas limitadas a um certo número de entidades lembrete.
@@ -23,7 +24,13 @@ public class LembreteRepository {
 	 */
 	public static final int PAGE_LENGTH = 5;
 	
-	public List<Lembrete> getByRange(int page) {
+	/**
+	 * Lista registros dentro de um determinado intervalo
+	 * @param page número da página de lembretes que desejamos listar
+	 * @return lista de lembretes da página ou uma lista vazia caso não exista nenhum registro na página indicada
+	 * @throws ApiException lançada em caso de erros no banco de dados
+	 */
+	public List<Lembrete> getByRange(int page) throws ApiException {
 		
 		List<Lembrete> lista = new Vector<Lembrete>();
 		
@@ -52,13 +59,18 @@ public class LembreteRepository {
 			}
 			
 		} catch(Exception e) {
-			
+			throw new ApiException(500, "Erro no banco de dados. " + e.getMessage());
 		}
 		
 		return lista;
 	}
 	
-	public List<Lembrete> getAll() {
+	/**
+	 * Lista os registros de lembretes do banco de dados, limitando a resposta a um número específico de lembretes
+	 * @return lista com um número limitado de lembretes
+	 * @throws ApiException lançada em caso de erros no banco de dados
+	 */
+	public List<Lembrete> getAll() throws ApiException {
 		List<Lembrete> lista = new Vector<Lembrete>();
 		
 		try {
@@ -83,7 +95,7 @@ public class LembreteRepository {
 			}
 			
 		} catch(Exception e) {
-			
+			throw new ApiException(500, "Erro no banco de dados. " + e.getMessage());
 		}
 		
 		return lista;
