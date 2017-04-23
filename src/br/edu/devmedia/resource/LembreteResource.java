@@ -4,13 +4,18 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import br.edu.devmedia.dao.LembreteMapper;
 import br.edu.devmedia.domain.Lembrete;
 import br.edu.devmedia.domain.LembreteRepository;
 import br.edu.devmedia.domain.Pagina;
@@ -18,6 +23,8 @@ import br.edu.devmedia.exception.ApiException;
 
 @Path("/lembrete")
 public class LembreteResource {
+
+	private static final String CHARSET_UTF8 = ";charset=utf-8";
 
 	@GET
 	@Consumes(MediaType.TEXT_PLAIN)
@@ -70,5 +77,53 @@ public class LembreteResource {
 		// também podemos declarar explicitamente a entity após o .ok()
 		return Response.ok().entity(resultPage).build();
 	}
-
+	
+	@GET
+	@Path("/{id}")
+	@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.APPLICATION_JSON + CHARSET_UTF8)
+	public Response getById(@PathParam("id") int id) throws ApiException {
+		Lembrete lembResult;
+		
+		if(id == 0) {
+			throw new ApiException(400, 
+					"O ID deve ser maior que zero.");
+		}
+		
+		LembreteMapper mapper = new LembreteMapper();
+		Lembrete lemb = new Lembrete();
+		lemb.setId(id);
+		
+		
+		lembResult = mapper.select(lemb);
+		
+		if(lembResult == null) {
+			throw new ApiException(204, 
+					"Não existe lembrete com o ID especificado.");
+		}
+		
+		return Response.ok(lembResult).build();
+	}
+	
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON + CHARSET_UTF8)
+	public Response insert(Lembrete lembrete) throws ApiException {
+		
+		return null;
+	}
+	
+	@PUT
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON + CHARSET_UTF8)
+	public Response update() throws ApiException {
+		
+		return null;
+	}
+	
+	@DELETE
+	public Response remove() throws ApiException {
+		
+		return null;
+	}
 }
