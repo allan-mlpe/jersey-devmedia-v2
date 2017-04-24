@@ -21,6 +21,11 @@ import br.edu.devmedia.domain.LembreteRepository;
 import br.edu.devmedia.domain.Pagina;
 import br.edu.devmedia.exception.ApiException;
 
+/**
+ * Contém os endpoints dos serviços da aplicação para fins de CRUD de lembretes.
+ * @author Allan
+ *
+ */
 @Path("/lembrete")
 public class LembreteResource {
 
@@ -134,6 +139,8 @@ public class LembreteResource {
 					"O ID do lembrete não pode ser menor ou igual a 0.");
 		}
 		
+		//é importante definir o id do lembrete igual ao id parado no URL
+		//mesmo que o objeto lembrete já tenha um id definido
 		lembrete.setId(id);
 		Lembrete lembUpdated = mapper.update(lembrete);
 		
@@ -141,8 +148,22 @@ public class LembreteResource {
 	}
 	
 	@DELETE
-	public Response remove() throws ApiException {
+	@Path("/{id}")
+	@Consumes(MediaType.APPLICATION_JSON + CHARSET_UTF8)
+	@Produces(MediaType.APPLICATION_JSON + CHARSET_UTF8)
+	public Response remove(@PathParam("id") int id) throws ApiException {
 		
-		return null;
+		if(id <= 0) {
+			throw new ApiException(400, 
+					"O ID do lembrete não pode ser menor ou igual a 0.");
+		}
+		
+		LembreteMapper mapper = new LembreteMapper();
+		Lembrete lemb = new Lembrete();
+		lemb.setId(id);
+		
+		Lembrete lembDeleted = mapper.delete(lemb);
+		
+		return Response.ok(lembDeleted).build();
 	}
 }
