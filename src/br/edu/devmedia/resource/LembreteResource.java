@@ -28,7 +28,7 @@ public class LembreteResource {
 
 	@GET
 	@Consumes(MediaType.TEXT_PLAIN)
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON + CHARSET_UTF8)
 	public Response get(@QueryParam("page") String page) throws ApiException {
 
 		LembreteRepository lr = new LembreteRepository();
@@ -64,7 +64,8 @@ public class LembreteResource {
 					"A página não pode ser igual a 0. Informe um valor maior ou igual a 1.");
 		}
 
-		if (Pattern.matches("^\\d+", page)) {
+		//se a página não for um dígito, reportar erro de parâmetros
+		if (!Pattern.matches("^\\d+", page)) {
 			throw new ApiException(400,
 					"Um valor inválido foi fornecido para um ou mais parâmetros");
 		}
@@ -106,19 +107,37 @@ public class LembreteResource {
 	}
 	
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON + CHARSET_UTF8)
 	@Produces(MediaType.APPLICATION_JSON + CHARSET_UTF8)
 	public Response insert(Lembrete lembrete) throws ApiException {
 		
-		return null;
+		if(lembrete.getDescricao().isEmpty() || lembrete.getTitulo().isEmpty()) {
+			throw new ApiException(400, 
+					"Um ou mais parâmetros obrigatórios não foram informados");
+		}
+		
+		LembreteMapper mapper = new LembreteMapper();
+		Lembrete lembInserted = mapper.insert(lembrete);
+		
+		return Response.ok(lembInserted).build();
 	}
 	
 	@PUT
-	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/{id}")
+	@Consumes(MediaType.APPLICATION_JSON + CHARSET_UTF8)
 	@Produces(MediaType.APPLICATION_JSON + CHARSET_UTF8)
-	public Response update() throws ApiException {
+	public Response update(@PathParam("id") int id, Lembrete lembrete) throws ApiException {
+		LembreteMapper mapper = new LembreteMapper();
 		
-		return null;
+		if(id <= 0) {
+			throw new ApiException(400, 
+					"O ID do lembrete não pode ser menor ou igual a 0.");
+		}
+		
+		lembrete.setId(id);
+		Lembrete lembUpdated = mapper.update(lembrete);
+		
+		return Response.ok(lembUpdated).build();
 	}
 	
 	@DELETE
