@@ -17,7 +17,7 @@ public class DatabaseConnectionFactory {
 	static {
 		Properties prop = new Properties();
 		try {
-			InputStream is = DatabaseConnectionFactory.class.getResourceAsStream("database.properties");
+			InputStream is = DatabaseConnectionFactory.class.getResourceAsStream("/database.properties");
 			prop.load(is);
 			
 			host = prop.getProperty("host");
@@ -33,7 +33,7 @@ public class DatabaseConnectionFactory {
 	}
 	
 	public static Connection getConnection() throws SQLException, ClassNotFoundException {
-		Class.forName("com.mysql.jdbc.driver");
+		Class.forName("com.mysql.jdbc.Driver");
 		Connection con = DriverManager.getConnection(
 				"jdbc:mysql://" + host + ":" + port + "/" + database, 
 				user, 
