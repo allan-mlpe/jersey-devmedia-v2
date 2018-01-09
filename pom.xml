@@ -73,5 +73,12 @@
   		<version>5.1.38</version>
   	</dependency>
   	
+  	<!-- Dependências do swagger -->
+  	<dependency>
+	  <groupId>io.swagger</groupId>
+	  <artifactId>swagger-jersey2-jaxrs</artifactId>
+	  <version>1.5.0</version>
+	</dependency>
+  	
   </dependencies>
 </project>
