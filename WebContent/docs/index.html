@@ -72,10 +72,10 @@
 <script>
 window.onload = function() {
   
-  let swaggerUrl = window.location.origin + "jersey-devmedia-v2/docs/index.html"; 
+  let swaggerUrl = window.location.origin + "/jersey-devmedia-v2/docs/index.html"; 
   // Build a system
   const ui = SwaggerUIBundle({
-    url: "http://petstore.swagger.io/v2/swagger.json",
+    url: swaggerUrl,
     dom_id: '#swagger-ui',
     deepLinking: true,
     presets: [
