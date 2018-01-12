@@ -3,6 +3,7 @@ package br.edu.devmedia.resource;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
@@ -26,6 +27,7 @@ import br.edu.devmedia.domain.Lembrete;
 import br.edu.devmedia.domain.LembreteRepository;
 import br.edu.devmedia.domain.Pagina;
 import br.edu.devmedia.exception.ApiException;
+import br.edu.devmedia.exception.Error;
 
 /**
  * Contém os endpoints dos serviços da aplicação para fins de CRUD de lembretes.
@@ -44,10 +46,10 @@ public class LembreteResource {
 	@ApiOperation(value = "Lista os lembretes cadastrados", consumes = "text/plain", produces = "application/json")
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, message = "Lista de lembretes recuperada com sucesso"),
-			@ApiResponse(code = 400, message = "Parâmetro sobre a página requisitada inválido"),
-			@ApiResponse(code = 500, message = "Erro interno do servidor")
+			@ApiResponse(code = 400, message = "Parâmetro sobre a página requisitada inválido", response = Error.class),
+			@ApiResponse(code = 500, message = "Erro interno do servidor", response = Error.class)
 	})
-	public Response get(@QueryParam("page") String page) throws ApiException {
+	public Response get(@ApiParam(name = "número de página")@QueryParam("page") String page) throws ApiException {
 
 		LembreteRepository lr = new LembreteRepository();
 		List<Lembrete> result = null;
@@ -101,7 +103,14 @@ public class LembreteResource {
 	@Path("/{id}")
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.APPLICATION_JSON + CHARSET_UTF8)
-	public Response getById(@PathParam("id") int id) throws ApiException {
+	@ApiOperation(value = "Recupera um lembrete dado um ID válido", produces = "application/json")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Lembrete recuperado com sucesso", response = Lembrete.class),
+			@ApiResponse(code = 204, message = "Nenhum lembrete encontrado com o ID especificado"),
+			@ApiResponse(code = 400, message = "ID fornecido inválido", response = Error.class),
+			@ApiResponse(code = 500, message = "Erro interno do servidor", response = Error.class)
+	})
+	public Response getById(@ApiParam(name = "ID do lembrete a ser recuperado") @PathParam("id") int id) throws ApiException {
 		Lembrete lembResult;
 		
 		if(id == 0) {
