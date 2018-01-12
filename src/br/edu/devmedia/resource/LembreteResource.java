@@ -49,7 +49,7 @@ public class LembreteResource {
 			@ApiResponse(code = 400, message = "Parâmetro sobre a página requisitada inválido", response = Error.class),
 			@ApiResponse(code = 500, message = "Erro interno do servidor", response = Error.class)
 	})
-	public Response get(@ApiParam(name = "número de página")@QueryParam("page") String page) throws ApiException {
+	public Response get(@ApiParam(value = "número de página")@QueryParam("page") String page) throws ApiException {
 
 		LembreteRepository lr = new LembreteRepository();
 		List<Lembrete> result = null;
@@ -110,7 +110,7 @@ public class LembreteResource {
 			@ApiResponse(code = 400, message = "ID fornecido inválido", response = Error.class),
 			@ApiResponse(code = 500, message = "Erro interno do servidor", response = Error.class)
 	})
-	public Response getById(@ApiParam(name = "ID do lembrete a ser recuperado") @PathParam("id") int id) throws ApiException {
+	public Response getById(@ApiParam(value = "ID do lembrete a ser recuperado") @PathParam("id") int id) throws ApiException {
 		Lembrete lembResult;
 		
 		if(id == 0) {
