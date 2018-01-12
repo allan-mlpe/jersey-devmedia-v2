@@ -1,4 +1,10 @@
+
 package br.edu.devmedia.resource;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 import java.util.List;
 import java.util.regex.Pattern;
@@ -26,6 +32,7 @@ import br.edu.devmedia.exception.ApiException;
  * @author Allan
  *
  */
+@Api(value = "lembrete")
 @Path("/lembrete")
 public class LembreteResource {
 
@@ -34,6 +41,12 @@ public class LembreteResource {
 	@GET
 	@Consumes(MediaType.TEXT_PLAIN)
 	@Produces(MediaType.APPLICATION_JSON + CHARSET_UTF8)
+	@ApiOperation(value = "Lista os lembretes cadastrados", consumes = "text/plain", produces = "application/json")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Lista de lembretes recuperada com sucesso"),
+			@ApiResponse(code = 400, message = "Parâmetro sobre a página requisitada inválido"),
+			@ApiResponse(code = 500, message = "Erro interno do servidor")
+	})
 	public Response get(@QueryParam("page") String page) throws ApiException {
 
 		LembreteRepository lr = new LembreteRepository();
