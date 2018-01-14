@@ -110,7 +110,7 @@ public class LembreteResource {
 			@ApiResponse(code = 400, message = "ID fornecido inválido", response = Error.class),
 			@ApiResponse(code = 500, message = "Erro interno do servidor", response = Error.class)
 	})
-	public Response getById(@ApiParam(value = "ID do lembrete a ser recuperado") @PathParam("id") int id) throws ApiException {
+	public Response getById(@ApiParam(value = "ID do lembrete a ser recuperado", required = true) @PathParam("id") int id) throws ApiException {
 		Lembrete lembResult;
 		
 		if(id == 0) {
@@ -173,7 +173,13 @@ public class LembreteResource {
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON + CHARSET_UTF8)
 	@Produces(MediaType.APPLICATION_JSON + CHARSET_UTF8)
-	public Response remove(@PathParam("id") int id) throws ApiException {
+	@ApiOperation(value = "Deleta um lembrete dado um ID válido", produces = "application/json")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Lembrete excluído com sucesso", response = Lembrete.class),
+			@ApiResponse(code = 400, message = "ID fornecido inválido", response = Error.class),
+			@ApiResponse(code = 500, message = "Erro interno do servidor", response = Error.class)
+	})
+	public Response remove(@ApiParam(value = "ID do lembrete a ser excluído", required = true) @PathParam("id") int id) throws ApiException {
 		
 		if(id <= 0) {
 			throw new ApiException(400, 
