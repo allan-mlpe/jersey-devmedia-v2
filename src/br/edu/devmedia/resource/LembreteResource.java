@@ -136,7 +136,13 @@ public class LembreteResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON + CHARSET_UTF8)
 	@Produces(MediaType.APPLICATION_JSON + CHARSET_UTF8)
-	public Response insert(Lembrete lembrete) throws ApiException {
+	@ApiOperation(value = "Cria um novo lembrete no banco de dados", consumes = "application/json", produces = "application/json")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Lembrete adicionado com sucesso", response = Lembrete.class),
+			@ApiResponse(code = 400, message = "Descrição ou título do lembrete vazios ou nulos", response = Error.class),
+			@ApiResponse(code = 500, message = "Erro interno do servidor", response = Error.class)
+	})
+	public Response insert(@ApiParam(value = "Lembrete a ser adicionado", required = true) Lembrete lembrete) throws ApiException {
 		
 		if(lembrete.getDescricao().isEmpty() || lembrete.getTitulo().isEmpty()) {
 			throw new ApiException(400, 
