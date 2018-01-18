@@ -159,6 +159,12 @@ public class LembreteResource {
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON + CHARSET_UTF8)
 	@Produces(MediaType.APPLICATION_JSON + CHARSET_UTF8)
+	@ApiOperation(value = "Atualiza um lembrete no banco de dados", consumes = "application/json", produces = "application/json")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Lembrete atualizado com sucesso", response = Lembrete.class),
+			@ApiResponse(code = 400, message = "ID fornecido inválido", response = Error.class),
+			@ApiResponse(code = 500, message = "Erro interno do servidor", response = Error.class)
+	})
 	public Response update(@PathParam("id") int id, Lembrete lembrete) throws ApiException {
 		LembreteMapper mapper = new LembreteMapper();
 		
